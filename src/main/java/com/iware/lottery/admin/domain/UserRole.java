@@ -14,45 +14,19 @@ public class UserRole implements Serializable{
      */
     private static final long serialVersionUID = 1L;
 
-    @Id()
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
+    @EmbeddedId
+    private UserRolePK userRolePK;
 
-    @JoinColumn(name = "userId")
-    @ManyToOne(optional = false)
-    private User user;
-
-    @JoinColumn(name = "roleId")
-    @ManyToOne(optional = false)
-    private Role role;
-
-    public Long getId() {
-        return id;
+    public UserRolePK getUserRolePK() {
+        return userRolePK;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
+    public void setUserRolePK(UserRolePK userRolePK) {
+        this.userRolePK = userRolePK;
     }
 
     @Override
     public String toString(){
-        return  "UserRole{" + "user=" + user.getId() +", role=" + role.getId()  + "}";
+        return  "UserRole{" + "user=" + userRolePK.getUser().getId() +", role=" + userRolePK.getRole().getId()  + "}";
     }
 }
