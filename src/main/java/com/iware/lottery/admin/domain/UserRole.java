@@ -9,6 +9,7 @@ import java.io.Serializable;
 @Entity
 @Table(name = "userRole")
 public class UserRole implements Serializable{
+
     /**
      *
      */
