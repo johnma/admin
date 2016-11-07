@@ -21,13 +21,28 @@ public final class UserSpecifications  {
         throw new InstantiationError( "Must not instantiate this class" );
     }
 
-    public static Specification<User> filterByKeywordAndStatus(final String keyword) {
+    public static Specification<User> filterByKeyword(final String keyword) {
         return (Root<User> root, CriteriaQuery<?> query, CriteriaBuilder cb) -> {
             List<Predicate> predicates = new ArrayList<>();
             if (StringUtils.hasText(keyword)) {
                 predicates.add(
                         cb.or(
                                 cb.like(root.get(User_.name), "%" + keyword + "%")
+                        )
+                );
+            }
+
+            return cb.and(predicates.toArray(new Predicate[predicates.size()]));
+        };
+    }
+
+    public static Specification<User> exactfilterByKeyword(final String keyword) {
+        return (Root<User> root, CriteriaQuery<?> query, CriteriaBuilder cb) -> {
+            List<Predicate> predicates = new ArrayList<>();
+            if (StringUtils.hasText(keyword)) {
+                predicates.add(
+                        cb.or(
+                                cb.like(root.get(User_.name), keyword)
                         )
                 );
             }

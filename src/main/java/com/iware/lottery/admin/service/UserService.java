@@ -52,7 +52,7 @@ public class UserService {
 
         logger.debug("search users by keyword@" + q + ", page @" + page);
 
-        Page<User> users = userRepository.findAll(UserSpecifications.filterByKeywordAndStatus(q), page);
+        Page<User> users = userRepository.findAll(UserSpecifications.filterByKeyword(q), page);
 
         logger.debug("get users size @" + users.getTotalElements());
 
@@ -67,7 +67,21 @@ public class UserService {
         User user = userRepository.findOne(id);
 
         if (user == null){
-            throw new ResourceNotFoundException(id);
+            throw new ResourceNotFoundException(id+"");
+        }
+
+        return DTOUtils.map(user, UserDetails.class);
+    }
+
+    public UserDetails findUserByName(String name){
+        Assert.notNull(name, "user name can not be null");
+
+        logger.debug("find user by name@" + name);
+
+        User user = userRepository.findOne(UserSpecifications.exactfilterByKeyword(name));
+
+        if (user == null || !user.getName().equals(name)){
+            throw new ResourceNotFoundException(name);
         }
 
         return DTOUtils.map(user, UserDetails.class);
@@ -97,7 +111,7 @@ public class UserService {
         User user = userRepository.findOne(id);
 
         if (null == user){
-            throw new  ResourceNotFoundException(id);
+            throw new  ResourceNotFoundException(id+"");
         }
 
         userRepository.delete(id);

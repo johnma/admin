@@ -73,7 +73,7 @@ public class UserController {
 
         Page<UserDetails> users = userService.searchUsersByCriteria(keyword, page);
 
-        logger.debug("get posts size @" + users.getTotalElements());
+        logger.debug("get users size @" + users.getTotalElements());
 
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
@@ -85,11 +85,23 @@ public class UserController {
 
         UserDetails user = userService.findUserById(id);
 
-        logger.debug("get post @" + user);
+        logger.debug("get user @" + user);
 
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
+/*
+    @RequestMapping(method = RequestMethod.GET, value = "/{name}")
+    @ResponseBody
+    public ResponseEntity<UserDetails> getUser(@PathVariable("name") String name){
+        logger.debug("get user's info by name @" + name);
 
+        UserDetails user = userService.findUserByName(name);
+
+        logger.debug("get user @" + user);
+
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+*/
     @RequestMapping(method = RequestMethod.PUT, value = "/{id}")
     @ResponseBody
     public ResponseEntity<ResponseMessage> updateUser(@PathVariable("id") Long id,@RequestBody @Valid UserForm form, BindingResult errResult){
