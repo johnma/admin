@@ -1,12 +1,9 @@
 package com.iware.lottery.admin.api;
 
 import com.iware.lottery.admin.auth.AuthValidate;
-import com.iware.lottery.admin.model.RegistrationForm;
-import com.iware.lottery.admin.model.UserDetails;
+import com.iware.lottery.admin.model.*;
 import com.iware.lottery.admin.Constants;
 import com.iware.lottery.admin.exception.InvalidRequestException;
-import com.iware.lottery.admin.model.ResponseMessage;
-import com.iware.lottery.admin.model.UserForm;
 import com.iware.lottery.admin.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -139,12 +136,17 @@ public class UserController {
         return new ResponseEntity<>(ResponseMessage.success("user.deleted"), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/login")
+    @RequestMapping(method = RequestMethod.GET, value = "/login")
     @ResponseBody
-    public ResponseEntity<ResponseMessage> login(@PathVariable("name") String name,@PathVariable("password") String password){
-        logger.info("login user by name@" + name);
-        logger.info("login user by password@" + password);
-        userService.login(name,password);
+    public ResponseEntity<ResponseMessage> login(@RequestBody @Valid LoginForm form, BindingResult errResult){
+        if (errResult.hasErrors()) {
+
+            throw new InvalidRequestException(errResult);
+        }
+
+        logger.info("login user by name@" + form.getName());
+        logger.info("login user by password@" + form.getPassword());
+        userService.login(form.getName(), form.getPassword());
         return new ResponseEntity<>(ResponseMessage.success("user.login"), HttpStatus.OK);
     }
 
