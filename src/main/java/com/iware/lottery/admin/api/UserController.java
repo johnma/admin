@@ -1,5 +1,6 @@
 package com.iware.lottery.admin.api;
 
+import com.iware.lottery.admin.auth.AuthValidate;
 import com.iware.lottery.admin.model.RegistrationForm;
 import com.iware.lottery.admin.model.UserDetails;
 import com.iware.lottery.admin.Constants;
@@ -64,6 +65,7 @@ public class UserController {
         return new ResponseEntity<>(ResponseMessage.success("user.created"), headers, HttpStatus.OK);
     }
 
+    @AuthValidate
     @RequestMapping(method = RequestMethod.GET, value = "")
     @ResponseBody
     public ResponseEntity<Page<UserDetails>> getAllUsers(
