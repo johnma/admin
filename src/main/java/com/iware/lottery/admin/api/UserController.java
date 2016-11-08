@@ -80,6 +80,7 @@ public class UserController {
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
+    @AuthValidate
     @RequestMapping(method = RequestMethod.GET, value = "/{id}")
     @ResponseBody
     public ResponseEntity<UserDetails> getUser(@PathVariable("id") Long id){
@@ -120,9 +121,9 @@ public class UserController {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path(Constants.URI_API + Constants.URI_USERS + "/{id}")
-                .buildAndExpand(saved.getId())
-                .toUri()
+                        .path(Constants.URI_API + Constants.URI_USERS + "/{id}")
+                        .buildAndExpand(saved.getId())
+                        .toUri()
         );
 
         return new ResponseEntity<>(ResponseMessage.success("user.updated"), headers, HttpStatus.OK);
@@ -137,5 +138,16 @@ public class UserController {
 
         return new ResponseEntity<>(ResponseMessage.success("user.deleted"), HttpStatus.OK);
     }
+
+    @RequestMapping(value = "/login")
+    @ResponseBody
+    public ResponseEntity<ResponseMessage> login(@PathVariable("name") String name,@PathVariable("password") String password){
+        logger.info("login user by name@" + name);
+        logger.info("login user by password@" + password);
+        userService.login(name,password);
+        return new ResponseEntity<>(ResponseMessage.success("user.login"), HttpStatus.OK);
+    }
+
+
 
 }
