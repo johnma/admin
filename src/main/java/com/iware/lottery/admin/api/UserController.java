@@ -136,7 +136,7 @@ public class UserController {
         return new ResponseEntity<>(ResponseMessage.success("user.deleted"), HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/login")
+    @RequestMapping(method = RequestMethod.POST, value = "/login")
     @ResponseBody
     public ResponseEntity<ResponseMessage> login(@RequestBody @Valid LoginForm form, BindingResult errResult){
         if (errResult.hasErrors()) {
