@@ -6,7 +6,7 @@ import java.util.Date;
 /**
  * Created by johnma on 2016/11/4.
  */
-public class UserForm implements Serializable{
+public class UserForm  extends Token implements Serializable{
     private static final long serialVersionUID = 1L;
 
     private Long id;

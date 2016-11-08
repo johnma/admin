@@ -1,6 +1,7 @@
 package com.iware.lottery.admin.service;
 
 import com.iware.lottery.admin.DTOUtils;
+import com.iware.lottery.admin.common.IdKit;
 import com.iware.lottery.admin.domain.User;
 import com.iware.lottery.admin.model.RegistrationForm;
 import com.iware.lottery.admin.model.UserDetails;
@@ -13,12 +14,15 @@ import org.hibernate.annotations.common.util.impl.LoggerFactory;
 import org.jboss.logging.Logger;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 
 import javax.inject.Inject;
+import java.util.Date;
 
 /**
  * Created by johnma on 2016/11/2.
@@ -117,5 +121,42 @@ public class UserService {
         userRepository.delete(id);
 
         return true;
+    }
+
+    public UserDetails findUserByToken(String token){
+        Assert.notNull(token, "user token can not be null");
+
+        logger.debug("find user by name@" + token);
+
+        User user = userRepository.findOne(UserSpecifications.exactfilterByToken(token));
+
+        if (user == null || !user.getName().equals(token)){
+            throw new ResourceNotFoundException(token);
+        }
+
+        return DTOUtils.map(user, UserDetails.class);
+    }
+
+    public ResponseEntity<UserDetails> login(String name,String passwd){
+        UserDetails userDetails = this.findUserByName(name);
+
+        if(null != userDetails){
+            if(userDetails.getPassword().equalsIgnoreCase(passwd)){
+                String token = IdKit.getToken();
+                UserForm userForm = new UserForm();
+                userForm.setId(userDetails.getId());
+                userForm.setToken(token);
+                Date date =new Date();
+                userForm.setTokenDate(date);
+                this.updateUser(userForm);
+                userDetails.setTokenDate(date);
+                userDetails.setToken(token);
+            }else{
+            }
+        }else{
+            throw new  ResourceNotFoundException(name);
+        }
+        return new ResponseEntity<>(userDetails, HttpStatus.OK);
+
     }
 }

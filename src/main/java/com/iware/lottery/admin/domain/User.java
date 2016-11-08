@@ -41,6 +41,13 @@ public class User implements Serializable{
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdDate;
 
+    @Column(name="token")
+    private String token;
+
+    @Column(name = "tokenDate")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date tokenDate;
+
     public Long getId() {
         return id;
     }
@@ -94,9 +101,33 @@ public class User implements Serializable{
         this.createdDate = new Date();
     }
 
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public Date getTokenDate() {
+        return tokenDate;
+    }
+
+    public void setTokenDate(Date tokenDate) {
+        this.tokenDate = tokenDate;
+    }
+
     @Override
-    public String toString(){
-        return  "User{" + "id=" + id +", name=" + name + ", email=" + email + ", password=" + password +
-                ", salt=" + salt + ", createdDate = " + createdDate + "}";
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", salt='" + salt + '\'' +
+                ", createdDate=" + createdDate +
+                ", token='" + token + '\'' +
+                ", tokenDate=" + tokenDate +
+                '}';
     }
 }

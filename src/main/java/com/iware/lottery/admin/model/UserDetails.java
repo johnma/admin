@@ -6,7 +6,7 @@ import java.util.Date;
 /**
  * Created by johnma on 2016/11/2.
  */
-public class UserDetails implements Serializable{
+public class UserDetails extends Token implements Serializable{
     /**
      *
      */

@@ -51,5 +51,20 @@ public final class UserSpecifications  {
         };
     }
 
+    public static Specification<User> exactfilterByToken(final String token) {
+        return (Root<User> root, CriteriaQuery<?> query, CriteriaBuilder cb) -> {
+            List<Predicate> predicates = new ArrayList<>();
+            if (StringUtils.hasText(token)) {
+                predicates.add(
+                        cb.or(
+                                cb.like(root.get(User_.token), token)
+                        )
+                );
+            }
+
+            return cb.and(predicates.toArray(new Predicate[predicates.size()]));
+        };
+    }
+
 }
 
