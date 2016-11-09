@@ -102,6 +102,7 @@ public class UserController {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 */
+    @AuthValidate
     @RequestMapping(method = RequestMethod.PUT, value = "/{id}")
     @ResponseBody
     public ResponseEntity<ResponseMessage> updateUser(@PathVariable("id") Long id,@RequestBody @Valid UserForm form, BindingResult errResult){
@@ -126,6 +127,7 @@ public class UserController {
         return new ResponseEntity<>(ResponseMessage.success("user.updated"), headers, HttpStatus.OK);
     }
 
+    @AuthValidate
     @RequestMapping(method = RequestMethod.DELETE,value = "/{id}")
     @ResponseBody
     public ResponseEntity<ResponseMessage> deleteUser(@PathVariable("id") Long id){
@@ -149,7 +151,4 @@ public class UserController {
         userService.login(form.getName(), form.getPassword());
         return new ResponseEntity<>(ResponseMessage.success("user.login"), HttpStatus.OK);
     }
-
-
-
 }
