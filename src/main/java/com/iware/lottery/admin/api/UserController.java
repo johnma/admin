@@ -25,7 +25,6 @@ import javax.validation.Valid;
  * Created by johnma on 2016/11/2.
  */
 @RestController
-//@RequestMapping(value = Constants.URI_API+ Constants.URI_USERS)
 @RequestMapping(value = Constants.URI_API + Constants.URI_USERS)
 public class UserController {
 
@@ -62,7 +61,7 @@ public class UserController {
         return new ResponseEntity<>(ResponseMessage.success("user.created"), headers, HttpStatus.OK);
     }
 
-    @AuthValidate
+    //@AuthValidate
     @RequestMapping(method = RequestMethod.GET, value = "")
     @ResponseBody
     public ResponseEntity<Page<UserDetails>> getAllUsers(
@@ -142,7 +141,6 @@ public class UserController {
     @ResponseBody
     public ResponseEntity<UserDetails>  login(@RequestBody @Valid LoginForm form, BindingResult errResult){
         if (errResult.hasErrors()) {
-
             throw new InvalidRequestException(errResult);
         }
 

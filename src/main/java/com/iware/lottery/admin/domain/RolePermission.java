@@ -9,7 +9,7 @@ import java.util.Date;
  * Created by johnma on 2016/11/3.
  */
 @Entity
-@Table(name = "RolePermission")
+@Table(name = "rolePermission")
 //@Table(name = "rolePermission", indexes = {@Index(name = "RolePermission",  column_names = {"roleId", "permission"})})
 class RolePermission implements Serializable {
     /**

@@ -84,13 +84,14 @@ public class ShiroConfig {
     @DependsOn("lifecycleBeanPostProcessor")
     public JdbcRealm jdbcRealm() {
         JdbcRealm realm = new JdbcRealm();
-        HashedCredentialsMatcher credentialsMatcher = new HashedCredentialsMatcher();
-        credentialsMatcher.setHashAlgorithmName(Sha256Hash.ALGORITHM_NAME);
-        realm.setCredentialsMatcher(credentialsMatcher);
+        //HashedCredentialsMatcher credentialsMatcher = new HashedCredentialsMatcher();
+        //credentialsMatcher.setHashAlgorithmName(Sha256Hash.ALGORITHM_NAME);
+        //realm.setCredentialsMatcher(credentialsMatcher);
         realm.setDataSource(this.dataSource);
-        realm.setAuthenticationQuery("SELECT password, CONCAT('${shiro.applicationSalt}', ':', salt) AS salt FROM user WHERE name = ?");
-        realm.setUserRolesQuery("SELECT name FROM role LEFT JOIN user_role ON role.id = user_role.role_id LEFT JOIN user ON user_role.user_id = user.id WHERE userid = ?");
-        realm.setPermissionsQuery("SELECT permission FROM role_permission LEFT JOIN role ON role_permission.role_id = role.id WHERE role.name = ?");
+        //realm.setAuthenticationQuery("SELECT password, CONCAT('${shiro.applicationSalt}', ':', salt) AS salt FROM user WHERE name = ?");
+        realm.setAuthenticationQuery("SELECT password, salt FROM user WHERE name = ?");
+        realm.setUserRolesQuery("SELECT name FROM role LEFT JOIN userRole ON role.id = user_role.roleId LEFT JOIN user ON userRole.userId = user.id WHERE user.id = ?");
+        realm.setPermissionsQuery("SELECT permission FROM rolePermission LEFT JOIN role ON rolePermission.roleId = role.id WHERE role.name = ?");
         realm.init();
         return realm;
     }

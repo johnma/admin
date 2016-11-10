@@ -9,7 +9,7 @@ import java.util.Date;
  * Created by johnma on 2016/11/2.
  */
 @Entity
-@Table(name = "User")
+@Table(name = "user")
 public class User implements Serializable{
     /**
      *

@@ -10,6 +10,8 @@ public final class Constants {
      */
     public static final String URI_API = "/api";
 
+    public static final String URI_IDENTITY = "/identity";
+
     public static final String URI_USERS = "/users";
 
     public static final String URI_COMMENTS = "/comments";
