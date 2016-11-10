@@ -140,7 +140,7 @@ public class UserController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/login")
     @ResponseBody
-    public ResponseEntity<ResponseMessage> login(@RequestBody @Valid LoginForm form, BindingResult errResult){
+    public ResponseEntity<UserDetails>  login(@RequestBody @Valid LoginForm form, BindingResult errResult){
         if (errResult.hasErrors()) {
 
             throw new InvalidRequestException(errResult);
@@ -148,7 +148,9 @@ public class UserController {
 
         logger.info("login user by name@" + form.getName());
         logger.info("login user by password@" + form.getPassword());
-        userService.login(form.getName(), form.getPassword());
-        return new ResponseEntity<>(ResponseMessage.success("user.login"), HttpStatus.OK);
+        UserDetails user = userService.login(form.getName(), form.getPassword());
+
+        return new ResponseEntity<>(user, HttpStatus.OK);
+
     }
 }

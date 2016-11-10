@@ -36,21 +36,6 @@ public final class UserSpecifications  {
         };
     }
 
-    public static Specification<User> exactfilterByKeyword(final String keyword) {
-        return (Root<User> root, CriteriaQuery<?> query, CriteriaBuilder cb) -> {
-            List<Predicate> predicates = new ArrayList<>();
-            if (StringUtils.hasText(keyword)) {
-                predicates.add(
-                        cb.or(
-                                cb.like(root.get(User_.name), keyword)
-                        )
-                );
-            }
-
-            return cb.and(predicates.toArray(new Predicate[predicates.size()]));
-        };
-    }
-
     public static Specification<User> exactfilterByToken(final String token) {
         return (Root<User> root, CriteriaQuery<?> query, CriteriaBuilder cb) -> {
             List<Predicate> predicates = new ArrayList<>();

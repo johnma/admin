@@ -129,7 +129,8 @@ public class UserService {
 
         logger.debug("find user by name@" + token);
 
-        User user = userRepository.findOne(UserSpecifications.exactfilterByToken(token));
+        //User user = userRepository.findOne(UserSpecifications.exactfilterByToken(token));
+        User user = userRepository.findByToken(token);
 
         if (user == null || !user.getName().equals(token)){
             throw new ResourceNotFoundException(token);
@@ -138,7 +139,7 @@ public class UserService {
         return DTOUtils.map(user, UserDetails.class);
     }
 
-    public ResponseEntity<UserDetails> login(String name,String passwd){
+    public UserDetails login(String name,String passwd){
         UserDetails userDetails = this.findUserByName(name);
 
         if(null != userDetails){
@@ -157,7 +158,7 @@ public class UserService {
         }else{
             throw new  ResourceNotFoundException(name);
         }
-        return new ResponseEntity<>(userDetails, HttpStatus.OK);
 
+        return userDetails;
     }
 }
