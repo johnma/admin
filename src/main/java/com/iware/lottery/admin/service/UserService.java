@@ -82,7 +82,8 @@ public class UserService {
 
         logger.debug("find user by name@" + name);
 
-        User user = userRepository.findOne(UserSpecifications.exactfilterByKeyword(name));
+        //User user = userRepository.findOne(UserSpecifications.exactfilterByKeyword(name));
+        User user = userRepository.findByName(name);
 
         if (user == null || !user.getName().equals(name)){
             throw new ResourceNotFoundException(name);
